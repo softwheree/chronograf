@@ -5,6 +5,7 @@ import uuid from 'node-uuid'
 import OrganizationsTableRow from 'src/admin/components/chronograf/OrganizationsTableRow'
 import OrganizationsTableRowDefault from 'src/admin/components/chronograf/OrganizationsTableRowDefault'
 import OrganizationsTableRowNew from 'src/admin/components/chronograf/OrganizationsTableRowNew'
+import SlideToggle from 'shared/components/SlideToggle'
 
 import {DEFAULT_ORG_ID} from 'src/admin/constants/dummyUsers'
 
@@ -28,6 +29,10 @@ class OrganizationsTable extends Component {
     const {onCreateOrg} = this.props
     onCreateOrg(organization)
     this.setState({isCreatingOrganization: false})
+  }
+
+  handleSuperAdminToggle = whatItDo => {
+    console.log(whatItDo)
   }
 
   render() {
@@ -87,6 +92,26 @@ class OrganizationsTable extends Component {
                     onChooseDefaultRole={onChooseDefaultRole}
                   />
           )}
+          <table className="table v-center superadmin-settings">
+            <thead>
+              <tr>
+                <th style={{width: 70}}>Settings</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style={{width: 70}}>
+                  <SlideToggle
+                    size="xs"
+                    active={true}
+                    onToggle={this.handleSuperAdminToggle}
+                  />
+                </td>
+                <td>Make new Users SuperAdmins by default?</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     )
