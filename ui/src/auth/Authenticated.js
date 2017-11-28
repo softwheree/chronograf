@@ -18,6 +18,9 @@ export const UserIsNotAuthenticated = UserAuthWrapper({
   redirectAction: replace,
   wrapperDisplayName: 'UserIsNotAuthenticated',
   predicate: ({auth: {me, isMeLoading}}) => !isMeLoading && me === null,
-  failureRedirectPath: () => '/',
+  failureRedirectPath: () => {
+    console.log('UserIsNotAuthenticated failureRedirect')
+    return '/'
+  },
   allowRedirectBack: false,
 })

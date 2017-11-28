@@ -110,6 +110,23 @@ const CheckSources = React.createClass({
     const source = sources.find(s => s.id === params.sourceID)
     const defaultSource = sources.find(s => s.default === true)
 
+    console.log(
+      'this.props me null?',
+      this.props.auth.me === null,
+      'nextProps me null?',
+      me === null
+    )
+    if (
+      this.props.auth.isUsingAuth &&
+      this.props.auth.me !== null &&
+      me === null
+    ) {
+      console.log('cast to purgatory', me)
+      // cast user unto purgatory if authz no longer valid (e.g. if current
+      // organization has been deleted)
+      return router.push('/purgatory')
+    }
+
     if (!isFetching && !source) {
       const rest = location.pathname.match(/\/sources\/\d+?\/(.+)/)
       const restString = rest === null ? DEFAULT_HOME_PAGE : rest[1]

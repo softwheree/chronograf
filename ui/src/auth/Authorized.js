@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
+import _ from 'lodash'
 
 export const MEMBER_ROLE = 'member'
 export const VIEWER_ROLE = 'viewer'
@@ -48,6 +49,10 @@ const Authorized = ({
     return null
   }
 
+  if (meRole === null) {
+    console.log('meRole === null -- /purgatory!')
+  }
+
   // React.isValidElement guards against multiple children wrapped by Authorized
   const firstChild = React.isValidElement(children) ? children : children[0]
 
@@ -81,9 +86,14 @@ Authorized.propTypes = {
   propsOverride: shape(),
 }
 
-const mapStateToProps = ({auth: {me: {role}, isUsingAuth}}) => ({
-  meRole: role,
-  isUsingAuth,
-})
+const mapStateToProps = ({auth}) => {
+  // me could be null if a 403 Forbidden was received, such as if the user's
+  // current organization no longer exists
+  const meRole = _.get(auth, 'me.role', null)
+  return {
+    meRole,
+    isUsingAuth: auth.isUsingAuth,
+  }
+}
 
 export default connect(mapStateToProps)(Authorized)

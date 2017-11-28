@@ -16,6 +16,7 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'AUTH_EXPIRED': {
       const {auth: {links}} = action.payload
+      console.log('AUTH_EXPIRED reducer')
       return {...initialState, links}
     }
     case 'AUTH_REQUESTED': {

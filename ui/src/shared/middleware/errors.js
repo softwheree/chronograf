@@ -18,11 +18,11 @@ const errorsMiddleware = store => next => action => {
 
   if (action.type === 'ERROR_THROWN') {
     const {error: {status, auth}, altText, alertType = 'error'} = action
-
     if (status === HTTP_FORBIDDEN) {
       const wasSessionTimeout = me !== null
-
+      console.log('403 forbidden.. wasSessionTimeout?', wasSessionTimeout)
       store.dispatch(authExpired(auth))
+      console.log(store.getState())
 
       if (wasSessionTimeout) {
         store.dispatch(
